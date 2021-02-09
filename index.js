@@ -29,4 +29,4 @@ function bootstrap(configPath, { Hub, Config }) {
     }
 };
 
-bootstrap('blinksocks.server.json', modules);
+bootstrap('server.conf', modules);
