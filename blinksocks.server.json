@@ -1,0 +1,13 @@
+{
+  "service": "ws://0.0.0.0:3000",
+  "key": "z{]5AWaxEFCMTKA,",
+  "presets": [
+    {
+      "name": "v2ray-vmess",
+      "params": {
+        "id": "4a4dd814-66a6-4d42-bc3e-de5604fe8e93",
+        "security": "none"
+      }
+    }
+  ]
+}
