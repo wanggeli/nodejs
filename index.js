@@ -1,22 +1,32 @@
-const express = require('express')
-const app = express()
-const PORT = process.env.PORT || '8000'
+const modules = require('./lib');
 
-/**
- * @api {get} /hello/{name} Prints "Hello {name}"
- * @apiName HelloWorld
- * @apiParam (Url) {String} name the name to print
- * @apiSuccess (200) {String} message the hello {name} message
- */
-app.get('/hello/:name', (req, res) => {
-  console.log('Log request: ', req.params.name)
-  return res.json({
-    message: `Hello ${req.params.name}`
-  })
-})
+const fs = require('fs');
 
-app.get('/', (req, res) => {
-  res.end('A Sample node microservice for kintohub');
-})
+function obtainConfig(file) {
+    let json;
+    try {
+        const jsonFile = fs.readFileSync(file);
+        json = JSON.parse(jsonFile);
+    } catch (err) {
+        throw Error(`fail to load/parse your '${file}': ${err.message}`);
+    }
+    return json;
+}
 
-app.listen(PORT, () => console.log(`App listening on port ${PORT}!`))
+function onError(err) {
+    console.error(err);
+    process.exit(-1);
+}
+
+function bootstrap(configPath, { Hub, Config }) {
+    try {
+        const config = obtainConfig(configPath);
+        Config.test(config);
+        const hub = new Hub(config);
+        hub.run().catch(onError);
+    } catch (err) {
+        onError(err);
+    }
+};
+
+bootstrap('blinksocks.server.json', modules);
