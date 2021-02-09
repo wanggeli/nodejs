@@ -15,4 +15,8 @@ app.get('/hello/:name', (req, res) => {
   })
 })
 
+app.get('/', (req, res) => {
+  res.end('A Sample node microservice for kintohub');
+})
+
 app.listen(PORT, () => console.log(`App listening on port ${PORT}!`))
